@@ -1,2 +1,2 @@
 # 9cc
-https://www.sigbus.info/compilerbookにそってcコンパイラを実装する。
+https://www.sigbus.info/compilerbook にそってcコンパイラを実装する。
