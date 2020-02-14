@@ -8,7 +8,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "引数の数が正しくありません。１つの引数が必要です。\n");
     return (1);
   }
-  
+
   printf(".intel_syntax noprefix\n");
   printf(".global main\n");
   printf("main:\n");
