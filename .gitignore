@@ -1,6 +1,7 @@
 *~
 *.swp
 *.o
+*.gch
 tmp*
 a.out
 9cc
