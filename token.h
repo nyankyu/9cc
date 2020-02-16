@@ -14,4 +14,9 @@ struct Token {
   char *str;
 };
 
-Token *current_token;
+bool consume(char op);
+void expect(char op);
+int expect_number();
+bool at_eof();
+void tokenize(char *p);
+
