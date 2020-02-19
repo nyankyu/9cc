@@ -1,3 +1,6 @@
+#ifndef AST_H
+#define AST_H
+
 typedef enum {
   ND_ADD,
   ND_SUB,
@@ -16,4 +19,6 @@ struct Node {
 
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
+
+#endif
 

@@ -1,3 +1,6 @@
+#ifndef TOKEN_H
+#define TOKEN_H
+
 #include <stdbool.h>
 
 typedef enum {
@@ -19,4 +22,6 @@ void expect(char op);
 int expect_number();
 bool at_eof();
 void tokenize(char *p);
+
+#endif
 
