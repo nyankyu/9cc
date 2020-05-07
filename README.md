@@ -1,5 +1,5 @@
 # 9cc
-https://www.sigbus.info/compilerbook にそってcコンパイラを実装する。9ccはCのソースコードからアセンブラコードを作成する。
+ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入門](https://www.sigbus.info/compilerbook)にそってcコンパイラ(9cc)を実装する。9ccはCのソースコードからアセンブラコードを作成する。
 
 ## 用語
 - 構文解析(syntactic analysis/parse) 文章を形態素に分け、それらの言語上の関係を図式化などによって明確化する手続き。ここでは、ソースコードを字句に分割し、構文木を作成する操作。構文解析を行う機械やプログラムを構文解析器(parser)という。構文解析器を生成するツールとして[yacc](https://ja.wikipedia.org/wiki/Yacc)が有名。
