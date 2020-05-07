@@ -2,11 +2,17 @@
 #define AST_H
 
 typedef enum {
-  ND_ADD,
-  ND_SUB,
-  ND_MUL,
-  ND_DIV,
-  ND_NUM,
+  ND_ADD,         // +
+  ND_SUB,         // -
+  ND_MUL,         // *
+  ND_DIV,         // /
+  ND_NUM,         // integer
+  ND_EQUAL,       // ==
+  ND_NOT_EQUAL,   // !=
+  ND_GREAT,       // >
+  ND_LESS,        // <
+  ND_GREAT_EQUAL, // >=
+  ND_LESS_EQUAL,  // <=
 } NodeKind;
 
 typedef struct Node Node;

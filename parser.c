@@ -33,7 +33,7 @@ Node *mul() {
   }
 }
 
-Node *expr() {
+Node *add() {
   Node *node = mul();
 
   for (;;) {
@@ -46,4 +46,37 @@ Node *expr() {
   }
 }
 
+Node *relational() {
+  Node *node = add();
+
+  for (;;) {
+    if (consume("<="))
+      node = new_node(ND_LESS_EQUAL, node, add());
+    else if (consume(">="))
+      node = new_node(ND_GREAT_EQUAL, node, add());
+    else if (consume("<"))
+      node = new_node(ND_LESS, node, add());
+    else if (consume(">"))
+      node = new_node(ND_GREAT, node, add());
+    else
+      return (node);
+  }
+}
+
+Node *equality() {
+  Node *node = relational();
+
+  for (;;) {
+    if (consume("=="))
+      node = new_node(ND_EQUAL, node, relational());
+    else if (consume("!="))
+      node = new_node(ND_NOT_EQUAL, node, relational());
+    else
+      return (node);
+  }
+}
+
+Node *expr() {
+  return (equality());
+}
 
