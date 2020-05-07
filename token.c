@@ -1,21 +1,22 @@
 #include <ctype.h>
+#include <string.h>
 #include "error.h"
 #include "token.h"
 
 Token *current_token;
 
-bool consume(char op) {
+bool consume(char *op) {
   if (current_token->kind != TK_RESERVED ||
-    current_token->str[0] != op)
+      strncmp(current_token->str, op, current_token->len) != 0)
     return (false);
   current_token = current_token->next;
   return (true);
 }
 
-void expect(char op) {
+void expect(char *op) {
   if (current_token->kind != TK_RESERVED ||
-    current_token->str[0] != op)
-    error("'%c'ではありません。", op);
+      strncmp(current_token->str, op, current_token->len) != 0)
+    error("'%s'ではありません。", op);
   current_token = current_token->next;
 }
 
@@ -31,12 +32,13 @@ bool at_eof() {
   return (current_token->kind == TK_EOF);
 }
 
-Token *new_op_token(TokenKind kind, char *str) {
+Token *new_op_token(TokenKind kind, char *str, int len) {
   Token *token = calloc(1, sizeof(Token));
   if (token == NULL)
     error_str("callc()が失敗しました。");
   token->kind = kind;
   token->str = str;
+  token->len = len;
   current_token->next = token;
   current_token = token;
   return token;
@@ -63,13 +65,24 @@ void tokenize(char *p) {
       continue;
     }
 
+    if (strncmp(p, "==", 2) == 0 ||
+        strncmp(p, "!=", 2) == 0 ||
+        strncmp(p, "<=", 2) == 0 ||
+        strncmp(p, ">=", 2) == 0) {
+      new_op_token(TK_RESERVED, p, 2);
+      p += 2;
+      continue;
+    }
+
     if (*p == '+' ||
         *p == '-' ||
         *p == '*' ||
         *p == '/' ||
+        *p == '<' ||
+        *p == '>' ||
         *p == '(' ||
         *p == ')') {
-      new_op_token(TK_RESERVED, p);
+      new_op_token(TK_RESERVED, p, 1);
       p++;
       continue;
     }
@@ -82,7 +95,7 @@ void tokenize(char *p) {
     error("トークナイズできません。");
   }
 
-  new_op_token(TK_EOF, p);
+  new_op_token(TK_EOF, p, 1);
   current_token = void_head.next;
 }
 

@@ -15,10 +15,11 @@ struct Token {
   Token *next;
   int val;
   char *str;
+  int len;
 };
 
-bool consume(char op);
-void expect(char op);
+bool consume(char *op);
+void expect(char *op);
 int expect_number();
 bool at_eof();
 void tokenize(char *p);
