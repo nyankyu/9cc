@@ -12,6 +12,7 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 ## BNL
 ```ebnf
 expr    = mul ("+" mul | "-" mul)*
-mul     = primary ("*" primary | "/" primary)*
+mul     = unary ("*" unary | "/" unary)*
+unary   = ("+" | "-")? primary
 primary = num | "(" expr ")"
 ```
