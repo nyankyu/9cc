@@ -63,7 +63,12 @@ void tokenize(char *p) {
       continue;
     }
 
-    if (*p == '+' || *p == '-') {
+    if (*p == '+' ||
+        *p == '-' ||
+        *p == '*' ||
+        *p == '/' ||
+        *p == '(' ||
+        *p == ')') {
       new_op_token(TK_RESERVED, p);
       p++;
       continue;

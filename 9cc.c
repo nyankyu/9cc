@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "token.h"
+#include "ast.h"
+#include "parser.h"
+#include "generator.h"
 
 int main(int argc, char **argv)
 {
@@ -11,24 +14,16 @@ int main(int argc, char **argv)
   }
 
   tokenize(argv[1]);
+  Node *node = expr();
 
   printf(".intel_syntax noprefix\n");
   printf(".global main\n");
   printf("main:\n");
 
-  printf("  mov rax, %d\n", expect_number());
+  gen(node);
 
-  while (!at_eof()) {
-    if (consume('+')) {
-      printf("  add rax, %d\n", expect_number());
-      continue;
-    }
-    if (consume('-')) {
-      printf("  sub rax, %d\n", expect_number());
-      continue;
-    }
-  }
-
+  printf("  pop rax\n");
   printf("  ret\n");
+
   return (0);
 }

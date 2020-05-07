@@ -2,7 +2,10 @@ CFLAGS=-std=c11 -g -static
 
 9cc: 9cc.c \
   token.c \
-  error.c
+  error.c \
+  ast.c \
+  parser.c \
+  generator.c
 
 test: 9cc
 	./test.sh
