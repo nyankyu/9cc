@@ -50,14 +50,14 @@ Node *relational() {
   Node *node = add();
 
   for (;;) {
-    if (consume("<="))
-      node = new_node(ND_LESS_EQUAL, node, add());
-    else if (consume(">="))
-      node = new_node(ND_GREAT_EQUAL, node, add());
-    else if (consume("<"))
+    if (consume("<"))
       node = new_node(ND_LESS, node, add());
     else if (consume(">"))
       node = new_node(ND_GREAT, node, add());
+    else if (consume("<="))
+      node = new_node(ND_LESS_EQUAL, node, add());
+    else if (consume(">="))
+      node = new_node(ND_GREAT_EQUAL, node, add());
     else
       return (node);
   }
