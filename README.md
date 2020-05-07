@@ -6,13 +6,16 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 - 字句解析(Lexical Analysis) 構文解析の前半の処理。文章を字句(token)に分割する処理。ここでは、ソースコードをキーワードやリテラルなどに分割してリスト化する処理。
 - AST(Abstract Syntax Tree) 抽象構文木。構文木から言語の意味に関係のない、カッコなどの要素を取り除いた物。
 - BNF/EBNF(Backus-Naur Form/Extended Backus-Naur Form)文脈自由文法を表現するメタ文法記法。ここでは、C言語の文法を表現するのに使用する。
-
 - LL(1)パーサ。トークンを1つだけ先読みする再帰下降パーサ。LL(1)パーサがパースできる文法をLL(1)文法という。
 - スタックマシン スタックをデータ保持領域として持っているコンピュータ。スタックマシンにおける2項演算は、スタックから2つの要素をポップして、それらの演算結果をプッシュする。カッコや演算子に優先順位がある式の計算が簡単にできる。
+
 ## EBNF
 ```ebnf
-expr    = mul ("+" mul | "-" mul)*
-mul     = unary ("*" unary | "/" unary)*
-unary   = ("+" | "-")? primary
-primary = num | "(" expr ")"
+expr       = equality
+equality   = relational ("==" relational | "!=" relational)*
+relational = add ("<" add | ">" add | "<=" add | ">=" add)*
+add        = mul ("+" mul | "-" mul)*
+mul        = unary ("*" unary | "/" unary)*
+unary      = ("+" | "-")? primary
+primary    = num | "(" expr ")"
 ```
