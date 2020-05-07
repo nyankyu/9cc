@@ -3,8 +3,6 @@
 
 #include "ast.h"
 
-Node *primary();
-Node *mul();
 Node *expr();
 
 #endif
