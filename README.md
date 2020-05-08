@@ -19,3 +19,34 @@ mul        = unary ("*" unary | "/" unary)*
 unary      = ("+" | "-")? primary
 primary    = num | "(" expr ")"
 ```
+
+## アセンブリコード
+### main関数のみからなるプログラム。そのmain関数は整数「42」を返すだけ。
+```assembly
+.intel_syntax noprefix
+.global main
+main:
+  mov rax, 42
+  ret
+```
+
+### 整数の四則演算
+```assembly
+# raxに4+61の結果が格納される
+  mov rax, 4
+  mov rdi, 61
+  add rax, rdi
+# raxに6-2の結果が格納される
+  mov rax, 6
+  mov rdi, 2
+  sub rax, rdi
+# raxに10*5の結果が格納される
+  mov rax, 10
+  mov rdi, 5
+  imul rax, rdi
+# raxに70/3の結果が格納される
+  mov rax, 70
+  mov rdi, 3
+  cqo
+  idiv rdi
+```
