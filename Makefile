@@ -1,11 +1,12 @@
 CFLAGS=-std=c11 -g -static
+SRCS=$(wildcard *.c)
+HEADERS=$(wildcard *.h)
+OBJS=$(SRCS:.c=.o)
 
-9cc: 9cc.c \
-  token.c \
-  error.c \
-  ast.c \
-  parser.c \
-  generator.c
+9cc: $(OBJS)
+	$(CC) -o 9cc $(OBJS) $(LDFLAGS)
+
+$(OBJS): $(HEADERS)
 
 test: 9cc
 	./test.sh
