@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "generator.h"
+#include "codegen.h"
 
 void gen(Node *node) {
   if (node->kind == ND_NUM) {

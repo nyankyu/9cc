@@ -3,7 +3,7 @@
 #include "token.h"
 #include "ast.h"
 #include "parser.h"
-#include "generator.h"
+#include "codegen.h"
 
 int main(int argc, char **argv)
 {
