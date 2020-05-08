@@ -43,5 +43,5 @@ assert 0 "2 <= 1"
 assert 1 "1 >= 1"
 assert 1 "2 >= 1"
 assert 0 "0 >= 1"
-
+assert 1 '1+-3+15/7+1!=(8/2)>=9<-1'
 echo "OK"
