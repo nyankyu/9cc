@@ -11,13 +11,16 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 
 ## EBNF
 ```ebnf
-expr       = equality
+program    = stmt*
+stmt       = expr ";"
+expr       = assign
+assign     = equality ("=" assign)?
 equality   = relational ("==" relational | "!=" relational)*
 relational = add ("<" add | ">" add | "<=" add | ">=" add)*
 add        = mul ("+" mul | "-" mul)*
 mul        = unary ("*" unary | "/" unary)*
 unary      = ("+" | "-")? primary
-primary    = num | "(" expr ")"
+primary    = num | ident | "(" expr ")"
 ```
 
 ## アセンブリコード
@@ -32,19 +35,19 @@ main:
 
 ### 整数の四則演算
 ```assembly
-# raxに4+61の結果が格納される
+; raxに4+61の結果が格納される
   mov rax, 4
   mov rdi, 61
   add rax, rdi
-# raxに6-2の結果が格納される
+; raxに6-2の結果が格納される
   mov rax, 6
   mov rdi, 2
   sub rax, rdi
-# raxに10*5の結果が格納される
+; raxに10*5の結果が格納される
   mov rax, 10
   mov rdi, 5
   imul rax, rdi
-# raxに70/3の結果が格納される
+; raxに70/3の結果が格納される
   mov rax, 70
   mov rdi, 3
   cqo
