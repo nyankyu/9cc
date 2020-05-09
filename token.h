@@ -20,6 +20,7 @@ struct Token {
 };
 
 bool consume(char *op);
+Token *consume_ident();
 void expect(char *op);
 int expect_number();
 bool at_eof();

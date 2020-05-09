@@ -13,6 +13,14 @@ bool consume(char *op) {
   return (true);
 }
 
+Token *consume_ident() {
+  if (current_token->kind != TK_IDENT)
+    return (NULL);
+  Token *token = current_token;
+  current_token = current_token->next;
+  return (token);
+}
+
 void expect(char *op) {
   if (current_token->kind != TK_RESERVED ||
       strncmp(current_token->str, op, current_token->len) != 0)

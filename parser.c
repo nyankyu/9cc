@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "parser.h"
 #include "token.h"
 #include "ast.h"
@@ -8,6 +9,10 @@ Node *primary() {
       expect(")");
       return (node);
   }
+
+  Token *token = consume_ident();
+  if (token)
+    return new_node_ident(token);
 
   return new_node_num(expect_number());
 }
@@ -76,7 +81,29 @@ Node *equality() {
   }
 }
 
+Node *assign() {
+  Node *node = equality();
+  if (consume("="))
+    node = new_node(ND_ASSIGN, node, assign());
+  return (node);
+}
+
 Node *expr() {
-  return (equality());
+  return (assign());
+}
+
+Node *stmt() {
+  Node *node = expr();
+  expect(";");
+  return node;
+}
+
+Node *code[100];
+
+void program() {
+  int i = 0;
+  while (!at_eof())
+    code[i++] = stmt();
+  code[i] = NULL;
 }
 

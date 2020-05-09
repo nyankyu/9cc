@@ -1,6 +1,8 @@
 #ifndef AST_H
 #define AST_H
 
+#include "token.h"
+
 typedef enum {
   ND_ADD,         // +
   ND_SUB,         // -
@@ -13,6 +15,8 @@ typedef enum {
   ND_LESS,        // <
   ND_GREAT_EQUAL, // >=
   ND_LESS_EQUAL,  // <=
+  ND_ASSIGN,      // =
+  ND_LVAR,        // local variable
 } NodeKind;
 
 typedef struct Node Node;
@@ -21,10 +25,12 @@ struct Node {
   Node *lhs;
   Node *rhs;
   int val;
+  int offset;     // offset from RBP
 };
 
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
+Node *new_node_ident(Token *token);
 
 #endif
 
