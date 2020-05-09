@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "ast.h"
 #include "token.h"
@@ -24,3 +25,13 @@ Node *new_node_ident(Token *token) {
   return node;
 }
 
+void dump(Node *node, int depth) {
+  printf("#");
+  for (int i = 0; i < depth; i++)
+    printf("  ");
+  printf("kind: %d, val: %d, offset: %d\n", node->kind, node->val, node->offset);
+  if (node->lhs != NULL)
+    dump(node->lhs, depth+1);
+  if (node->rhs != NULL)
+    dump(node->rhs, depth+1);
+}

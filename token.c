@@ -6,6 +6,8 @@
 Token *current_token;
 
 bool consume(char *op) {
+  if (strlen(op) != current_token->len)
+    return (false);
   if (current_token->kind != TK_RESERVED ||
       strncmp(current_token->str, op, current_token->len) != 0)
     return (false);
@@ -47,6 +49,7 @@ Token *new_token(TokenKind kind, char *str, int len) {
   token->kind = kind;
   token->str = str;
   token->len = len;
+  printf("# kind:%d, str:%s, len:%d\n", kind, str, len);
   current_token->next = token;
   current_token = token;
   return token;
@@ -58,6 +61,7 @@ Token *new_num_token(char **str) {
     error_str("callc()が失敗しました。");
   token->kind = TK_NUM;
   token->val = strtol(*str, str, 10);
+  printf("# TK_NUM : %d\n", token->val);
   current_token->next = token;
   current_token = token;
   return token;
@@ -75,6 +79,7 @@ void tokenize(char *p) {
 
     if ('a' <= *p && *p <= 'z') {
       new_token(TK_IDENT, p, 1);
+      p++;
       continue;
     }
 
@@ -94,7 +99,9 @@ void tokenize(char *p) {
         *p == '<' ||
         *p == '>' ||
         *p == '(' ||
-        *p == ')') {
+        *p == ')' ||
+        *p == '=' ||
+        *p == ';') {
       new_token(TK_RESERVED, p, 1);
       p++;
       continue;

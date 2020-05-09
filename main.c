@@ -14,15 +14,28 @@ int main(int argc, char **argv)
   }
 
   tokenize(argv[1]);
-  Node *node = expr();
+  puts("# tokenized");
+  program();
+  puts("# made AST");
 
   printf(".intel_syntax noprefix\n");
   printf(".global main\n");
   printf("main:\n");
 
-  gen(node);
+  // prologue
+  // stack size 8 * 26 = 208
+  printf("  push rbp\n");
+  printf("  mov rbp, rsp\n");
+  printf("  sub rsp, 208\n");
 
-  printf("  pop rax\n");
+  for (int i = 0; g_code[i]; i++) {
+    gen(g_code[i]);
+    printf("  pop rax\n");
+  }
+
+  // epilogue
+  printf("  mov rsp, rbp\n");
+  printf("  pop rbp\n");
   printf("  ret\n");
 
   return (0);
