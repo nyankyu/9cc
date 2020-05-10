@@ -13,10 +13,10 @@ int main(int argc, char **argv)
     return (1);
   }
 
+  puts("#====== tokenize =======");
   tokenize(argv[1]);
-  puts("# tokenized");
+  puts("#====== made AST =======");
   program();
-  puts("# made AST");
 
   printf(".intel_syntax noprefix\n");
   printf(".global main\n");

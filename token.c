@@ -61,7 +61,7 @@ Token *new_num_token(char **str) {
     error_str("callc()が失敗しました。");
   token->kind = TK_NUM;
   token->val = strtol(*str, str, 10);
-  printf("# TK_NUM : %d\n", token->val);
+  printf("# kind:%d, val:%d\n", TK_NUM, token->val);
   current_token->next = token;
   current_token = token;
   return token;
