@@ -1,7 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "parser.h"
 #include "token.h"
 #include "ast.h"
+
+// list of local variable
+typedef struct LVar LVar;
+struct LVar {
+  LVar *next;
+  char *name;
+  int len;
+  int offset;
+};
+
+LVar *locals = NULL;
+
+LVar *find_lvar(Token *token) {
+  for (LVar *var = locals; var; var = var->next)
+    if (var->len == token->len && memcmp(token->str, var->name, var->len) == 0)
+      return var;
+  return NULL;
+}
 
 Node *primary() {
   if (consume("(")) {
@@ -11,8 +31,19 @@ Node *primary() {
   }
 
   Token *token = consume_ident();
-  if (token)
-    return new_node_ident(token);
+  if (token) {
+    LVar *lvar = find_lvar(token);
+    if (lvar == NULL) {
+      lvar = calloc(1, sizeof(LVar));
+      lvar->next = locals;
+      lvar->name = token->str;
+      lvar->len = token->len;
+      lvar->offset = locals ? locals->offset + 8 : 8;
+      locals = lvar;
+    }
+
+    return new_node_ident(lvar->offset);
+  }
 
   return new_node_num(expect_number());
 }

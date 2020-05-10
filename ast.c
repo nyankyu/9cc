@@ -18,10 +18,10 @@ Node *new_node_num(int val) {
   return node;
 }
 
-Node *new_node_ident(Token *token) {
+Node *new_node_ident(int offset) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = ND_LVAR;
-  node->offset = (token->str[0] - 'a' + 1) * 8;
+  node->offset = offset;
   return node;
 }
 
