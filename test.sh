@@ -18,10 +18,13 @@ assert() {
   fi
 }
 
+assert 42 'a = 42;'
 assert 43 'a = 42 + 1;'
 assert 126 'a = 42 * (2 + 1);'
 assert 3 'a = 2; b = 1; c = a + b;'
 assert 14 'a = 2; b = 3; c = 4 * a + b * 2;'
+assert 3 'c=a=b=a=a=a=b=b=c=c=1;x=a+b+c;'
+assert 0 '(x-a)*(x-b)*(x-c)*(x-d)*(x-e)*(x-f)*(x-g)*(x-h)*(x-i)*(x-j)*(x-k)*(x-l)*(x-m)*(x-n)*(x-o)*(x-p)*(x-q)*(x-r)*(x-s)*(x-t)*(x-u)*(x-v)*(x-w)*(x-x)*(x-y)*(x-z);'
 assert 0 '0;'
 assert 42 '42;'
 assert 123 '123;'
