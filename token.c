@@ -78,8 +78,11 @@ void tokenize(char *p) {
     }
 
     if ('a' <= *p && *p <= 'z') {
-      new_token(TK_IDENT, p, 1);
-      p++;
+      char *top = p;
+      int len = 0;
+      while ('a' <= *p && *p <= 'z')
+        p++,len++;
+      new_token(TK_IDENT, top, len);
       continue;
     }
 
