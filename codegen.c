@@ -10,7 +10,20 @@ void gen_lval(Node *node) {
   printf("  push rax\n");
 }
 
+int end_num = 0;
+
 void gen(Node *node) {
+  if (node->kind == ND_IF) {
+    gen(node->lhs);
+    printf("  pop rax\n");
+    printf("  cmp rax, 0\n");
+    printf("  je  .Lend%d\n", end_num);
+    gen(node->rhs);
+    printf(".Lend%d:\n", end_num);
+    end_num++;
+    return;
+  }
+
   if (node->kind == ND_RETURN) {
     gen(node->lhs);
     printf("  pop rax\n");

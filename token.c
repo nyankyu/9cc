@@ -85,6 +85,12 @@ void tokenize(char *p) {
       continue;
     }
 
+    if (memcmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
+      new_token(TK_IF, p, 2);
+      p += 2;
+      continue;
+    }
+
     if (memcmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
       new_token(TK_RETURN, p, 6);
       p += 6;

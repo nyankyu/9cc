@@ -18,6 +18,9 @@ assert() {
   fi
 }
 
+assert 1 'if (1) return 1; return 42;'
+assert 42 'if (0) return 1; return 42;'
+assert 42 'iff = (42); return iff;'
 assert 42 'return 42;'
 assert 0 'return 0; return 42;'
 assert 3 'returnn = 3; return returnn;'

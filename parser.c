@@ -129,6 +129,17 @@ Node *stmt() {
 
   if (consume_kind(TK_RETURN)) {
     node = new_node(ND_RETURN, expr(), NULL);
+  } else if (consume_kind(TK_IF)) {
+    puts("# is if");
+    consume("(");
+    puts("# is (");
+    Node *if_expr = expr();
+    puts("# is expr");
+    expect(")");
+    puts("# is )");
+    node = new_node(ND_IF, if_expr, stmt());
+    puts("# is stmt");
+    return node;
   } else {
     node = expr();
   }
