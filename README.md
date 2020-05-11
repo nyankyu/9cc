@@ -12,7 +12,7 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 ## EBNF
 ```ebnf
 program    = stmt*
-stmt       = expr ";"
+stmt       = expr ";" | "return" expr ";"
 expr       = assign
 assign     = equality ("=" assign)?
 equality   = relational ("==" relational | "!=" relational)*
