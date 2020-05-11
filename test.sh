@@ -19,6 +19,7 @@ assert() {
 }
 
 assert 42 'return 42;'
+assert 0 'return 0; return 42;'
 assert 3 'return 1+2;'
 assert 42 'return aaaa = 42;'
 assert 43 'return bbb = 42 + 1;'
