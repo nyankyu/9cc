@@ -2,15 +2,9 @@
 #include <string.h>
 #include "error.h"
 #include "token.h"
+#include "util.h"
 
 Token *current_token;
-
-int is_alnum(char c) {
-  return ('a' <= c && c <= 'z') ||
-         ('A' <= c && c <= 'Z') ||
-         ('0' <= c && c <= '9') ||
-         (c == '_');
-}
 
 bool consume_kind(TokenKind kind) {
   if (current_token->kind != kind)
@@ -63,7 +57,7 @@ Token *new_token(TokenKind kind, char *str, int len) {
   token->kind = kind;
   token->str = str;
   token->len = len;
-  printf("# kind:%d, str:%s, len:%d\n", kind, str, len);
+  dump_token(token);
   current_token->next = token;
   current_token = token;
   return token;
@@ -75,7 +69,7 @@ Token *new_num_token(char **str) {
     error_str("callc()が失敗しました。");
   token->kind = TK_NUM;
   token->val = strtol(*str, str, 10);
-  printf("# kind:%d, val:%d\n", TK_NUM, token->val);
+  dump_token(token);
   current_token->next = token;
   current_token = token;
   return token;

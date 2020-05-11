@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "token.h"
 #include "ast.h"
+#include "util.h"
 
 // list of local variable
 typedef struct LVar LVar;
@@ -140,7 +141,7 @@ void program() {
   int i = 0;
   while (!at_eof()) {
     g_code[i++] = stmt();
-    dump(g_code[i-1], 0);
+    dump_node(g_code[i-1], 0);
   }
   g_code[i] = NULL;
 }

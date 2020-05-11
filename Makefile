@@ -14,4 +14,6 @@ test: 9cc
 clean:
 	rm -f 9cc *.o *~ tmp*
 
-.PHONY: test clean
+re: clean 9cc
+
+.PHONY: test clean re
