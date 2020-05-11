@@ -17,6 +17,7 @@ typedef enum {
   ND_LESS_EQUAL,  // <=
   ND_ASSIGN,      // =
   ND_LVAR,        // local variable
+  ND_RETURN,      // return
 } NodeKind;
 
 typedef struct Node Node;

@@ -18,12 +18,14 @@ assert() {
   fi
 }
 
-assert 42 'aaaa = 42;'
-assert 43 'bbb = 42 + 1;'
-assert 126 'ccc = 42 * (2 + 1);'
-assert 3 'aaa = 2; bbb = 1; ccc = aaa + bbb;'
-assert 14 'aaa = 2; bbb = 3; ccc = 4 * aaa + bbb * 2;'
-assert 6 'hoge = 1; hogehoge = 2; h = 3; hoge+hogehoge+h;'
+assert 42 'return 42;'
+assert 3 'return 1+2;'
+assert 42 'return aaaa = 42;'
+assert 43 'return bbb = 42 + 1;'
+assert 126 'return ccc = 42 * (2 + 1);'
+assert 3 'aaa = 2; bbb = 1; return ccc = aaa + bbb;'
+assert 14 'aaa = 2; bbb = 3; return ccc = 4 * aaa + bbb * 2;'
+assert 6 'hoge = 1; hogehoge = 2; h = 3; return hoge+hogehoge+h;'
 assert 3 'c=a=b=a=a=a=b=b=c=c=1;x=a+b+c;'
 assert 0 '(x-a)*(x-b)*(x-c)*(x-d)*(x-e)*(x-f)*(x-g)*(x-h)*(x-i)*(x-j)*(x-k)*(x-l)*(x-m)*(x-n)*(x-o)*(x-p)*(x-q)*(x-r)*(x-s)*(x-t)*(x-u)*(x-v)*(x-w)*(x-x)*(x-y)*(x-z);'
 assert 0 '0;'

@@ -7,7 +7,8 @@ typedef enum {
   TK_RESERVED,
   TK_IDENT,
   TK_NUM,
-  TK_EOF
+  TK_RETURN,
+  TK_EOF,
 } TokenKind;
 
 typedef struct Token Token;
@@ -19,6 +20,7 @@ struct Token {
   int len;
 };
 
+bool consume_kind(TokenKind kind);
 bool consume(char *op);
 Token *consume_ident();
 void expect(char *op);

@@ -5,6 +5,20 @@
 
 Token *current_token;
 
+int is_alnum(char c) {
+  return ('a' <= c && c <= 'z') ||
+         ('A' <= c && c <= 'Z') ||
+         ('0' <= c && c <= '9') ||
+         (c == '_');
+}
+
+bool consume_kind(TokenKind kind) {
+  if (current_token->kind != kind)
+    return (false);
+  current_token = current_token->next;
+  return (true);
+}
+
 bool consume(char *op) {
   if (strlen(op) != current_token->len)
     return (false);
@@ -74,6 +88,12 @@ void tokenize(char *p) {
   while (*p) {
     if (isspace(*p)) {
       p++;
+      continue;
+    }
+
+    if (memcmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
+      new_token(TK_RETURN, p, 6);
+      p += 6;
       continue;
     }
 
