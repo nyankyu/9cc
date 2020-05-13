@@ -11,7 +11,7 @@ typedef struct LVar LVar;
 struct LVar {
   LVar *next;
   char *name;
-  int len;
+  size_t len;
   int offset;
 };
 
@@ -127,18 +127,13 @@ Node *expr() {
 Node *stmt() {
   Node *node;
 
-  if (consume_kind(TK_RETURN)) {
+  if (consume("return")) {
     node = new_node(ND_RETURN, expr(), NULL);
-  } else if (consume_kind(TK_IF)) {
-    puts("# is if");
+  } else if (consume("if")) {
     consume("(");
-    puts("# is (");
     Node *if_expr = expr();
-    puts("# is expr");
     expect(")");
-    puts("# is )");
     node = new_node(ND_IF, if_expr, stmt());
-    puts("# is stmt");
     return node;
   } else {
     node = expr();

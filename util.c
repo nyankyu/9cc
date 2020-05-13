@@ -26,7 +26,10 @@ void dump_token(Token *token) {
   else {
     char buff[256] = {0};
     strncpy(buff, token->str, token->len);
-    printf("# kind:%d, str:%s, len:%d\n", token->kind, buff, token->len);
+    printf("# kind:%d, str:%s, len:%ld\n", token->kind, buff, token->len);
   }
 }
 
+bool is_keyword(char *p, char *word, int len) {
+  return memcmp(p, word, len) == 0 && !is_alnum(p[len]);
+}

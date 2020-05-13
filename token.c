@@ -6,13 +6,6 @@
 
 Token *current_token;
 
-bool consume_kind(TokenKind kind) {
-  if (current_token->kind != kind)
-    return (false);
-  current_token = current_token->next;
-  return (true);
-}
-
 bool consume(char *op) {
   if (strlen(op) != current_token->len)
     return (false);
@@ -85,14 +78,14 @@ void tokenize(char *p) {
       continue;
     }
 
-    if (memcmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
-      new_token(TK_IF, p, 2);
+    if (is_keyword(p, "if", 2)) {
+      new_token(TK_RESERVED, p, 2);
       p += 2;
       continue;
     }
 
-    if (memcmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
-      new_token(TK_RETURN, p, 6);
+    if (is_keyword(p, "return", 6)) {
+      new_token(TK_RESERVED, p, 6);
       p += 6;
       continue;
     }

@@ -51,6 +51,8 @@ void gen(Node *node) {
     printf("  mov [rax], rdi\n");
     printf("  push rdi\n");
     return;
+  default:
+    break;
   }
 
   gen(node->lhs);
@@ -102,6 +104,8 @@ void gen(Node *node) {
     printf("  cmp rax, rdi\n");
     printf("  setle al\n");
     printf("  movzb rax, al\n");
+    break;
+  default:
     break;
   }
   printf("  push rax\n");
