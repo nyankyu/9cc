@@ -13,7 +13,10 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 ```ebnf
 program    = stmt*
 stmt       = expr ";"
+             | "{" stmt* "}"
              | if "(" expr ")" stmt ("else" stmt)?
+             | for "(" expr ";" expr ";" expr ")" stmt
+             | while "(" expr ")" stmt
              | "return" expr ";"
 expr       = assign
 assign     = equality ("=" assign)?
