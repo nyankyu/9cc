@@ -13,7 +13,7 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 ```ebnf
 program    = stmt*
 stmt       = expr ";"
-             | if "(" expr ")" stmt
+             | if "(" expr ")" stmt ("else" stmt)?
              | "return" expr ";"
 expr       = assign
 assign     = equality ("=" assign)?
@@ -24,6 +24,34 @@ mul        = unary ("*" unary | "/" unary)*
 unary      = ("+" | "-")? primary
 primary    = num | ident | "(" expr ")"
 ```
+
+## 構成
+### tokenizer
+Cのソースコードを構文解析して、tokenのリストを作成する。
+```c
+struct Token {
+  TokenKind kind;
+  Token *next;
+  int val;
+  char *str;
+  int len;
+};
+```
+
+### parser
+tokenizerが作成したtokenリストを、EBNFにそって解析してASTを作成する。
+```c
+struct Node {
+  NodeKind kind;
+  Node *lhs;
+  Node *rhs;
+  int val;
+  int offset;     // offset from RBP
+};
+```
+
+### code generator
+parserが作成したASTをrootノードから読んで、assemblyコードを出力する。
 
 ## アセンブリコード
 ### main関数のみからなるプログラム。そのmain関数は整数「42」を返すだけ。
