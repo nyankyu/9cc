@@ -133,7 +133,11 @@ Node *stmt() {
     consume("(");
     Node *if_expr = expr();
     expect(")");
-    node = new_node(ND_IF, if_expr, stmt());
+    node = new_if(if_expr, stmt());
+
+    if (consume("else")) {
+      node = add_else(node, stmt());
+    }
     return node;
   } else {
     node = expr();

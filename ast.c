@@ -3,6 +3,19 @@
 #include "ast.h"
 #include "token.h"
 
+Node *add_else(Node *node, Node *els) {
+  node->els = els;
+  return node;
+}
+
+Node *new_if(Node *cnd, Node *then) {
+  Node *node = calloc(1, sizeof(Node));
+  node->kind = ND_IF;
+  node->cnd = cnd;
+  node->then = then;
+  return node;
+}
+
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = kind;

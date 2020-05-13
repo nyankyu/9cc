@@ -17,13 +17,14 @@ assert() {
     exit 1
   fi
 }
-
 assert 1 'if (1) return 1; return 42;'
 assert 42 'if (0) return 1; return 42;'
 assert 1 'a = 42; if (1) a = 1; if (1) return a; return a+10;'
 assert 42 'a = 42; if (0) a = 1; if (1) return a; return a+10;'
 assert 11 'a = 42; if (1) a = 1; if (0) return a; return a+10;'
 assert 52 'a = 42; if (0) a = 1; if (0) return a; return a+10;'
+assert 1 'if (1) a=1; else a=2; return a;'
+assert 2 'if (0) a=1; else a=2; return a;'
 assert 42 'iff = (42); return iff;'
 assert 42 'return 42;'
 assert 0 'return 0; return 42;'

@@ -84,6 +84,12 @@ void tokenize(char *p) {
       continue;
     }
 
+    if (is_keyword(p, "else", 4)) {
+      new_token(TK_RESERVED, p, 4);
+      p += 4;
+      continue;
+    }
+
     if (is_keyword(p, "return", 6)) {
       new_token(TK_RESERVED, p, 6);
       p += 6;
