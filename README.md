@@ -25,10 +25,29 @@ unary      = ("+" | "-")? primary
 primary    = num | ident | "(" expr ")"
 ```
 
+## 演算子
+演算子と優先順位
+|演算子|結合性|
+|---|---|
+|+（単項）, -（単項）|右|
+|*, /|左|
+|+, -|左|
+|<, <=, >, >=|左|
+|==, !=|左|
+|=|右|
+
+
 ## 構成
 ### tokenizer
-Cのソースコードを構文解析して、tokenのリストを作成する。
+Cのソースコードを字句解析して、tokenのリストを作成する。
 ```c
+typedef enum {
+  TK_RESERVED,
+  TK_IDENT,
+  TK_NUM,
+  TK_EOF,
+} TokenKind;
+
 struct Token {
   TokenKind kind;
   Token *next;
@@ -41,6 +60,25 @@ struct Token {
 ### parser
 tokenizerが作成したtokenリストを、EBNFにそって解析してASTを作成する。
 ```c
+typedef enum {
+  ND_ADD,         // +
+  ND_SUB,         // -
+  ND_MUL,         // *
+  ND_DIV,         // /
+  ND_NUM,         // integer
+  ND_EQUAL,       // ==
+  ND_NOT_EQUAL,   // !=
+  ND_GREAT,       // >
+  ND_LESS,        // <
+  ND_GREAT_EQUAL, // >=
+  ND_LESS_EQUAL,  // <=
+  ND_ASSIGN,      // =
+  ND_LVAR,        // local variable
+  ND_RETURN,      // return
+  ND_IF,          // if
+  ND_ELSE,        // else
+} NodeKind;
+
 struct Node {
   NodeKind kind;
   Node *lhs;
