@@ -13,6 +13,32 @@ void gen_lval(Node *node) {
 int label_num = 0;
 
 void gen(Node *node) {
+  if (node->kind == ND_FOR) {
+    gen(node->init);
+    printf(".Lbegin%d:\n", label_num);
+    gen(node->cnd);
+    printf("  pop rax\n");
+    printf("  cmp rax, 0\n");
+    printf("  je  .Lend%d\n", label_num);
+    gen(node->then);
+    gen(node->step);
+    printf("  jmp .Lbegin%d\n", label_num);
+    printf(".Lend%d:\n", label_num);
+    return;
+  }
+
+  if (node->kind == ND_WHILE) {
+    printf(".Lbegin%d:\n", label_num);
+    gen(node->cnd);
+    printf("  pop rax\n");
+    printf("  cmp rax, 0\n");
+    printf("  je  .Lend%d\n", label_num);
+    gen(node->then);
+    printf("  jmp .Lbegin%d\n", label_num);
+    printf(".Lend%d:\n", label_num);
+    return;
+  }
+
   if (node->kind == ND_IF) {
     gen(node->cnd);
     printf("  pop rax\n");

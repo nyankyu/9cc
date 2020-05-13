@@ -139,6 +139,22 @@ Node *stmt() {
       node = add_else(node, stmt());
     }
     return node;
+  } else if (consume("while")) {
+    consume("(");
+    Node *cnd = expr();
+    expect(")");
+    node = new_while(cnd, stmt());
+    return node;
+  } else if (consume("for")) {
+    consume("(");
+    Node *init = expr();
+    expect(";");
+    Node *cnd = expr();
+    expect(";");
+    Node *step = expr();
+    expect(")");
+    node = new_for(init, cnd, step, stmt());
+    return node;
   } else {
     node = expr();
   }

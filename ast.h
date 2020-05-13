@@ -19,6 +19,8 @@ typedef enum {
   ND_LVAR,        // local variable
   ND_RETURN,      // return
   ND_IF,          // if
+  ND_WHILE,       // while
+  ND_FOR,         // for
 } NodeKind;
 
 typedef struct Node Node;
@@ -28,11 +30,15 @@ struct Node {
   Node *rhs;
   int val;
   int offset;     // offset from RBP
+  Node *init;
   Node *cnd;
+  Node *step;
   Node *then;
   Node *els;
 };
 
+Node *new_for(Node *init, Node *cnd, Node *step, Node *then);
+Node *new_while(Node *cnd, Node *then);
 Node *new_if(Node *cnd, Node *then);
 Node *add_else(Node *node, Node *els);
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);

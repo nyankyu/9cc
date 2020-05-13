@@ -78,6 +78,7 @@ void tokenize(char *p) {
       continue;
     }
 
+    // TODO 関数化
     if (is_keyword(p, "if", 2)) {
       new_token(TK_RESERVED, p, 2);
       p += 2;
@@ -87,6 +88,18 @@ void tokenize(char *p) {
     if (is_keyword(p, "else", 4)) {
       new_token(TK_RESERVED, p, 4);
       p += 4;
+      continue;
+    }
+
+    if (is_keyword(p, "while", 5)) {
+      new_token(TK_RESERVED, p, 5);
+      p += 5;
+      continue;
+    }
+
+    if (is_keyword(p, "for", 3)) {
+      new_token(TK_RESERVED, p, 3);
+      p += 3;
       continue;
     }
 
