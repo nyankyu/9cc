@@ -13,6 +13,16 @@ void gen_lval(Node *node) {
 int label_num = 0;
 
 void gen(Node *node) {
+  if (node->kind == ND_BLOCK) {
+    Node *body = node->body;
+    while (body) {
+      gen(body);
+      printf("  pop rax\n");
+      body = body->next;
+    }
+    return;
+  }
+
   if (node->kind == ND_FOR) {
     gen(node->init);
     printf(".Lbegin%d:\n", label_num);

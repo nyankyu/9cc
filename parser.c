@@ -155,6 +155,15 @@ Node *stmt() {
     expect(")");
     node = new_for(init, cnd, step, stmt());
     return node;
+  } else if (consume("{")) {
+    node = new_node(ND_BLOCK, NULL, NULL);
+    Node head = {};
+    Node *cur = &head;
+    while (!consume("}")) {
+      cur = cur->next = stmt();
+    }
+    node->body = head.next;
+    return node;
   } else {
     node = expr();
   }

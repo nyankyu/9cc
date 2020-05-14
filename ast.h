@@ -21,6 +21,7 @@ typedef enum {
   ND_IF,          // if
   ND_WHILE,       // while
   ND_FOR,         // for
+  ND_BLOCK,       // {}
 } NodeKind;
 
 typedef struct Node Node;
@@ -28,13 +29,20 @@ struct Node {
   NodeKind kind;
   Node *lhs;
   Node *rhs;
+
   int val;
   int offset;     // offset from RBP
+
+  // "if", "for", "while" statement
   Node *init;
   Node *cnd;
   Node *step;
   Node *then;
   Node *els;
+
+  // block
+  Node *body;
+  Node *next;
 };
 
 Node *new_for(Node *init, Node *cnd, Node *step, Node *then);
