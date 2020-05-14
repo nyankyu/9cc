@@ -3,6 +3,14 @@
 #include "ast.h"
 #include "token.h"
 
+Node *new_call(Token *token) {
+  Node *node = calloc(1, sizeof(Node));
+  node->kind = ND_CALL;
+  node->ident = token->str;
+  node->len = token->len;
+  return node;
+}
+
 Node *new_for(Node *init, Node *cnd, Node *step, Node *then) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = ND_FOR;

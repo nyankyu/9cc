@@ -22,6 +22,7 @@ typedef enum {
   ND_WHILE,       // while
   ND_FOR,         // for
   ND_BLOCK,       // {}
+  ND_CALL,        // call function
 } NodeKind;
 
 typedef struct Node Node;
@@ -43,8 +44,13 @@ struct Node {
   // block
   Node *body;
   Node *next;
+
+  // call function
+  char *ident;
+  size_t len;
 };
 
+Node *new_call(Token *token);
 Node *new_for(Node *init, Node *cnd, Node *step, Node *then);
 Node *new_while(Node *cnd, Node *then);
 Node *new_if(Node *cnd, Node *then);

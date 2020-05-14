@@ -32,21 +32,26 @@ Node *primary() {
   }
 
   Token *token = consume_ident();
-  if (token) {
-    LVar *lvar = find_lvar(token);
-    if (lvar == NULL) {
-      lvar = calloc(1, sizeof(LVar));
-      lvar->next = locals;
-      lvar->name = token->str;
-      lvar->len = token->len;
-      lvar->offset = locals ? locals->offset + 8 : 8;
-      locals = lvar;
-    }
-
-    return new_node_ident(lvar->offset);
+  if (!token) {
+    return new_node_num(expect_number());
   }
 
-  return new_node_num(expect_number());
+  if (consume("(")) {
+    expect(")");
+    return new_call(token);
+  }
+
+  LVar *lvar = find_lvar(token);
+  if (lvar == NULL) {
+    lvar = calloc(1, sizeof(LVar));
+    lvar->next = locals;
+    lvar->name = token->str;
+    lvar->len = token->len;
+    lvar->offset = locals ? locals->offset + 8 : 8;
+    locals = lvar;
+  }
+
+  return new_node_ident(lvar->offset);
 }
 
 Node *unary() {

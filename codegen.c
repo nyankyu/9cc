@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "codegen.h"
 #include "error.h"
 
@@ -13,6 +14,27 @@ void gen_lval(Node *node) {
 int label_num = 0;
 
 void gen(Node *node) {
+  if (node->kind == ND_CALL) {
+    char buff[256] = {0};
+    strncpy(buff, node->ident, node->len);
+    label_num++;
+    // RSPを16の倍数に調整
+    printf("  mov rax, rsp\n");
+    printf("  and rax, 15\n");
+    printf("  jnz .Laligned%d\n", label_num);
+    printf("  mov rax, 0\n");
+    printf("  call %s\n", buff);
+    printf("  jmp .Lend%d\n", label_num);
+    printf(".Laligned%d:\n", label_num);
+    printf("  sub rsp, 8\n");
+    printf("  mov rax, 0\n");
+    printf("  call %s\n", buff);
+    printf("  add rsp, 8\n");
+    printf(".Lend%d:\n", label_num);
+    printf("push rax\n");
+    return;
+  }
+
   if (node->kind == ND_BLOCK) {
     Node *body = node->body;
     while (body) {

@@ -5,7 +5,7 @@ assert() {
   input="$2"
 
   ./9cc "$input" > tmp.s
-  gcc -o tmp tmp.s
+  gcc -o tmp tmp.s func.o
   ./tmp
   actual="$?"
 
@@ -18,6 +18,7 @@ assert() {
   fi
 }
 
+assert 42 'a = 1 + 2; return hoge();'
 assert 6 '{a = 1; b = 2; c = 3; a = b * c;} return a;'
 assert 101 'b=0; c=0; for (a = 1; a < 100; a = a+1) {b=a+1; c=b+1; d=c*b;} return c;'
 assert 100 'a=1; while (a < 100) a = a+1; return a;'
