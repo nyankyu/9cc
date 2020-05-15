@@ -26,8 +26,10 @@ add        = mul ("+" mul | "-" mul)*
 mul        = unary ("*" unary | "/" unary)*
 unary      = ("+" | "-")? primary
 primary    = num
-             | ident ("(" ")")?
+             | ident
+             | ident ("(" param? ")")
              | "(" expr ")"
+param      = expr ("," expr)*
 ```
 
 ## 演算子
