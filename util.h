@@ -1,7 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include "Token.h"
+#include "token.h"
 #include "ast.h"
 
 int is_alnum(char c);
