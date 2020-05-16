@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+int piyo() {
+  return 42;
+}
+
 int hoge(int a, int b, int c) {
   puts("call hoge SUCCESS!!");
   return a+b+c;

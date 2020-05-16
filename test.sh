@@ -18,6 +18,7 @@ assert() {
   fi
 }
 
+assert 42 'return piyo();'
 assert 15 'a = 2; return hoge(a, a+3, a*4);'
 assert 42 'return hoge(fuge(2, 3), hoge(1, 2, 3), fuge(5, 6));'
 exit
