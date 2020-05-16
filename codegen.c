@@ -13,12 +13,26 @@ void gen_lval(Node *node) {
 
 int label_num = 0;
 
+char *arg_reg[] = {"rdi", "rsi", "rdx", "rcx", "r8", "r9"};
+
 void gen(Node *node) {
   if (node->kind == ND_CALL) {
+    // 引数をセット
+    Node *p = node->param;
+    int pnum = 0;
+    while (p) {
+      gen(p);
+      p = p->next;
+      pnum++;
+    }
+    while (pnum--) {
+      printf("  pop rax\n");
+      printf("  mov %s, rax\n", arg_reg[pnum]);
+    }
+    // RSPを16の倍数に調整
     char buff[256] = {0};
     strncpy(buff, node->ident, node->len);
     label_num++;
-    // RSPを16の倍数に調整
     printf("  mov rax, rsp\n");
     printf("  and rax, 15\n");
     printf("  jnz .Laligned%d\n", label_num);

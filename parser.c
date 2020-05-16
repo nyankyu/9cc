@@ -24,6 +24,17 @@ LVar *find_lvar(Token *token) {
   return NULL;
 }
 
+Node *param() {
+  Node head = {};
+  Node *cur = &head;
+  cur = cur->next = expr();
+  while (!consume(")")) {
+    expect(",");
+    cur = cur->next = expr();
+  }
+  return head.next;
+}
+
 Node *primary() {
   if (consume("(")) {
       Node *node = expr();
@@ -37,8 +48,11 @@ Node *primary() {
   }
 
   if (consume("(")) {
-    expect(")");
-    return new_call(token);
+    Node *param_list = NULL;
+    if (!consume(")")) {
+      param_list = param();
+    }
+    return new_call(token, param_list);
   }
 
   LVar *lvar = find_lvar(token);

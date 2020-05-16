@@ -3,11 +3,12 @@
 #include "ast.h"
 #include "token.h"
 
-Node *new_call(Token *token) {
+Node *new_call(Token *token, Node *param) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = ND_CALL;
   node->ident = token->str;
   node->len = token->len;
+  node->param = param;
   return node;
 }
 

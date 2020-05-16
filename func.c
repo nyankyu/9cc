@@ -1,6 +1,11 @@
 #include <stdio.h>
 
-int hoge() {
-  puts("function call SUCCESS!!");
-  return 42;
+int hoge(int a, int b, int c) {
+  puts("call hoge SUCCESS!!");
+  return a+b+c;
+}
+
+int fuge(int a, int b) {
+  puts("call fuge!!!");
+  return a*b;
 }

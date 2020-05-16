@@ -138,6 +138,7 @@ void tokenize(char *p) {
         *p == '{' ||
         *p == '}' ||
         *p == '=' ||
+        *p == ',' ||
         *p == ';') {
       new_token(TK_RESERVED, p, 1);
       p++;

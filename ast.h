@@ -48,9 +48,10 @@ struct Node {
   // call function
   char *ident;
   size_t len;
+  Node *param;
 };
 
-Node *new_call(Token *token);
+Node *new_call(Token *token, Node *param);
 Node *new_for(Node *init, Node *cnd, Node *step, Node *then);
 Node *new_while(Node *cnd, Node *then);
 Node *new_if(Node *cnd, Node *then);
