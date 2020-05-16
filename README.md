@@ -11,7 +11,8 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 
 ## EBNF
 ```ebnf
-program    = stmt*
+program    = function*
+function   = ident "(" ")" "{" stmt "}"
 stmt       = expr ";"
              | "{" stmt* "}"
              | if "(" expr ")" stmt ("else" stmt)?
