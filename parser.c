@@ -190,13 +190,30 @@ Node *stmt() {
   return node;
 }
 
+Function *function() {
+  Function *func = calloc(1, sizeof(Function));
+
+  Token *token = consume_ident();
+  func->name = token->str;
+  func->len = token->len;
+
+  expect("(");
+  expect(")");
+  expect("{");
+  int i = 0;
+  while (!consume("}")) {
+    func->body[i++] = stmt();
+  }
+  func->body[i] = NULL;
+  return func;
+}
+
 
 void program() {
   int i = 0;
   while (!at_eof()) {
-    g_code[i++] = stmt();
-    dump_node(g_code[i-1], 0);
+    g_function[i++] = function();
   }
-  g_code[i] = NULL;
+  g_function[i] = NULL;
 }
 

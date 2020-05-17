@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "codegen.h"
+#include "parser.h"
 #include "error.h"
 
 void gen_lval(Node *node) {
@@ -12,6 +13,22 @@ void gen_lval(Node *node) {
 }
 
 int label_num = 0;
+
+void gen_function() {
+  for (int fi = 0; g_function[fi]; fi++) {
+    char name[256] = {};
+    strncpy(name, g_function[fi]->name, g_function[fi]->len);
+    printf("%s:\n", name);
+    printf("  push rbp\n");
+    printf("  mov rbp, rsp\n");
+    printf("  sub rsp, 208\n");
+
+    for (int si = 0; g_function[fi]->body[si]; si++) {
+      gen(g_function[fi]->body[si]);
+      printf("  pop rax\n");
+    }
+  }
+}
 
 char *arg_reg[] = {"rdi", "rsi", "rdx", "rcx", "r8", "r9"};
 
@@ -45,7 +62,7 @@ void gen(Node *node) {
     printf("  call %s\n", buff);
     printf("  add rsp, 8\n");
     printf(".Lend%d:\n", label_num);
-    printf("push rax\n");
+    printf("  push rax\n");
     return;
   }
 

@@ -51,6 +51,13 @@ struct Node {
   Node *param;
 };
 
+typedef struct Function Function;
+struct Function {
+  char *name;
+  size_t len;
+  Node *body[1024];
+};
+
 Node *new_call(Token *token, Node *param);
 Node *new_for(Node *init, Node *cnd, Node *step, Node *then);
 Node *new_while(Node *cnd, Node *then);
