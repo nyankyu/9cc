@@ -12,7 +12,7 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 ## EBNF
 ```ebnf
 program    = function*
-function   = ident "(" ")" "{" stmt* "}"
+function   = ident "(" argment? ")" "{" stmt* "}"
 stmt       = expr ";"
              | "{" stmt* "}"
              | if "(" expr ")" stmt ("else" stmt)?
@@ -31,6 +31,7 @@ primary    = num
              | ident ("(" param? ")")
              | "(" expr ")"
 param      = expr ("," expr)*
+argment    = ident ("," ident)*
 ```
 
 ## 未実装
