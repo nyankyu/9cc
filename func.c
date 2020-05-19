@@ -13,3 +13,4 @@ int fuge(int a, int b) {
   puts("call fuge!!!");
   return a*(b+1);
 }
+

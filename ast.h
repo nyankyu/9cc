@@ -51,10 +51,20 @@ struct Node {
   Node *param;
 };
 
+// list of local variable
+typedef struct LVar LVar;
+struct LVar {
+  LVar *next;
+  char *name;
+  size_t len;
+  int offset;
+};
+
 typedef struct Function Function;
 struct Function {
   char *name;
   size_t len;
+  size_t args_size;
   Node *body[1024];
 };
 

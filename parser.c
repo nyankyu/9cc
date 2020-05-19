@@ -6,19 +6,10 @@
 #include "ast.h"
 #include "util.h"
 
-// list of local variable
-typedef struct LVar LVar;
-struct LVar {
-  LVar *next;
-  char *name;
-  size_t len;
-  int offset;
-};
-
-LVar *locals = NULL;
+LVar *g_locals;
 
 LVar *find_lvar(Token *token) {
-  for (LVar *var = locals; var; var = var->next)
+  for (LVar *var = g_locals; var; var = var->next)
     if (var->len == token->len && memcmp(token->str, var->name, var->len) == 0)
       return var;
   return NULL;
@@ -58,11 +49,11 @@ Node *primary() {
   LVar *lvar = find_lvar(token);
   if (lvar == NULL) {
     lvar = calloc(1, sizeof(LVar));
-    lvar->next = locals;
+    lvar->next = g_locals;
     lvar->name = token->str;
     lvar->len = token->len;
-    lvar->offset = locals ? locals->offset + 8 : 8;
-    locals = lvar;
+    lvar->offset = g_locals ? g_locals->offset + 8 : 8;
+    g_locals = lvar;
   }
 
   return new_node_ident(lvar->offset);
@@ -190,6 +181,23 @@ Node *stmt() {
   return node;
 }
 
+size_t set_args() {
+  size_t args_size = 0;
+  expect("(");
+  while (!consume(")")) {
+    Token *token = consume_ident();
+    LVar *lvar = calloc(1, sizeof(LVar));
+    lvar->next = g_locals;
+    lvar->name = token->str;
+    lvar->len = token->len;
+    lvar->offset = g_locals ? g_locals->offset + 8 : 8;
+    g_locals = lvar;
+    args_size++;
+    consume(",");
+  }
+  return args_size;
+}
+
 Function *function() {
   Function *func = calloc(1, sizeof(Function));
 
@@ -197,14 +205,16 @@ Function *function() {
   func->name = token->str;
   func->len = token->len;
 
-  expect("(");
-  expect(")");
+  g_locals = NULL;
+  func->args_size = set_args();
+
   expect("{");
   int i = 0;
   while (!consume("}")) {
     func->body[i++] = stmt();
   }
   func->body[i] = NULL;
+
   return func;
 }
 

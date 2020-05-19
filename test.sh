@@ -20,6 +20,10 @@ assert() {
 
 assert 42 'main() {return 42;}'
 assert 42 'aaa() {a = 21; return a;} main() {a = 2; return aaa() * a;}'
+assert 42 'aaa() {a = 21; return a;} bbb() {return 2;} main() {return aaa() * bbb();}'
+assert 8 'aaa(x, y) {a = x + y; return a;} main() {return aaa(3, 5);}'
+assert 0 'aaa(x) {if (x == 0) {return 0;} return aaa(x-1);} main() {return aaa(10);}'
+assert 89 'aaa(x) {if (x <= 1) {return 1;} return aaa(x-1) + aaa(x-2);} main() {return aaa(10);}'
 exit
 assert 42 'return piyo();'
 assert 36 'a = 2; return hoge(a, a+3, a*4);'
