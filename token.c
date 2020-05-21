@@ -68,6 +68,37 @@ Token *new_num_token(char **str) {
   return token;
 }
 
+char *keyword[] = {
+  "if", "else", "while", "for", "swhitch", "case", "default", "return",
+  "continue", "break", "sizeof", "do",
+  "int", "long", "short", "char", "float", "double", "void",
+  "signed", "unsigned", "const",
+  "struct", "union", "enum", "extern", "static", "typedef"
+};
+
+char *symbol[] = {
+  "==", "!=", "<=", ">=", "->",
+  "+", "-", "*", "/", "%",
+  "<", ">", "(", ")", "[", "]", "{", "}",
+  "=", ",", ";", ":", "."
+};
+
+size_t is_reserved_word(char *p) {
+  for (size_t i = 0; i < sizeof(keyword) / sizeof(*keyword); i++) {
+    char *word = keyword[i];
+    size_t len = strlen(word);
+    if (strncmp(p, word, len) == 0 && !is_alnum(p[len]))
+      return len;
+  }
+  for (size_t i = 0; i < sizeof(symbol) / sizeof(*symbol); i++) {
+    char *word = symbol[i];
+    size_t len = strlen(word);
+    if (strncmp(p, word, len) == 0)
+      return len;
+  }
+  return 0;
+}
+
 void tokenize(char *p) {
   Token void_head;
   current_token = &void_head;
@@ -78,34 +109,10 @@ void tokenize(char *p) {
       continue;
     }
 
-    // TODO 関数化
-    if (is_keyword(p, "if", 2)) {
-      new_token(TK_RESERVED, p, 2);
-      p += 2;
-      continue;
-    }
-
-    if (is_keyword(p, "else", 4)) {
-      new_token(TK_RESERVED, p, 4);
-      p += 4;
-      continue;
-    }
-
-    if (is_keyword(p, "while", 5)) {
-      new_token(TK_RESERVED, p, 5);
-      p += 5;
-      continue;
-    }
-
-    if (is_keyword(p, "for", 3)) {
-      new_token(TK_RESERVED, p, 3);
-      p += 3;
-      continue;
-    }
-
-    if (is_keyword(p, "return", 6)) {
-      new_token(TK_RESERVED, p, 6);
-      p += 6;
+    size_t len = is_reserved_word(p);
+    if (len) {
+      new_token(TK_RESERVED, p, len);
+      p += len;
       continue;
     }
 
@@ -115,33 +122,6 @@ void tokenize(char *p) {
       while ('a' <= *p && *p <= 'z')
         p++,len++;
       new_token(TK_IDENT, top, len);
-      continue;
-    }
-
-    if (strncmp(p, "==", 2) == 0 ||
-        strncmp(p, "!=", 2) == 0 ||
-        strncmp(p, "<=", 2) == 0 ||
-        strncmp(p, ">=", 2) == 0) {
-      new_token(TK_RESERVED, p, 2);
-      p += 2;
-      continue;
-    }
-
-    if (*p == '+' ||
-        *p == '-' ||
-        *p == '*' ||
-        *p == '/' ||
-        *p == '<' ||
-        *p == '>' ||
-        *p == '(' ||
-        *p == ')' ||
-        *p == '{' ||
-        *p == '}' ||
-        *p == '=' ||
-        *p == ',' ||
-        *p == ';') {
-      new_token(TK_RESERVED, p, 1);
-      p++;
       continue;
     }
 

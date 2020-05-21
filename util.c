@@ -31,10 +31,6 @@ void dump_token(Token *token) {
   }
 }
 
-bool is_keyword(char *p, char *word, int len) {
-  return memcmp(p, word, len) == 0 && !is_alnum(p[len]);
-}
-
 char *strndup(char *str, size_t len) {
   char *cpy = malloc(sizeof(char) * len + 1);
   strncpy(cpy, str, len);
