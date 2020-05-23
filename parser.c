@@ -189,6 +189,7 @@ size_t set_args() {
   size_t args_size = 0;
   expect("(");
   while (!consume(")")) {
+    expect("int");
     Token *token = consume_ident();
     LVar *lvar = calloc(1, sizeof(LVar));
     lvar->next = g_locals;
@@ -205,6 +206,7 @@ size_t set_args() {
 Function *function() {
   Function *func = calloc(1, sizeof(Function));
 
+  expect("int");
   Token *token = consume_ident();
   func->name = token->str;
   func->len = token->len;
