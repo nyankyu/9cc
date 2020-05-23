@@ -18,6 +18,7 @@ assert() {
   fi
 }
 
+assert 12 'main() {a = 12; b = &a; return *b;}'
 assert 42 'aaa() {a = 21; return a;} main() {a = 2; return aaa() * a;}'
 assert 42 'aaa() {a = 21; return a;} bbb() {return 2;} main() {return aaa() * bbb();}'
 assert 8 'aaa(x, y) {a = x + y; return a;} main() {return aaa(3, 5);}'
