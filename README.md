@@ -12,13 +12,14 @@ ruiさんの[低レイヤを知りたい人のためのCコンパイラ作成入
 ## EBNF
 ```ebnf
 program    = function*
-function   = ident "(" argment? ")" "{" stmt* "}"
+function   = "int" ident "(" argment? ")" "{" stmt* "}"
 stmt       = expr ";"
              | "{" stmt* "}"
              | if "(" expr ")" stmt ("else" stmt)?
              | for "(" expr ";" expr ";" expr ")" stmt
              | while "(" expr ")" stmt
              | "return" expr ";"
+             | "int" ident ";"
 expr       = assign
 assign     = equality ("=" assign)?
 equality   = relational ("==" relational | "!=" relational)*
@@ -33,7 +34,7 @@ primary    = num
              | ident ("(" param? ")")
              | "(" expr ")"
 param      = expr ("," expr)*
-argment    = ident ("," ident)*
+argment    = "int" ident ("," "int" ident)*
 ```
 
 ## 未実装
