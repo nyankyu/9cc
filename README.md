@@ -49,6 +49,10 @@ argment    = ident ("," ident)*
 - グローバル変数
 - コメント
 - スコープ
+- enum
+- typedef
+- goto
+- 浮動小数
 
 ## 制限
 - 引数:6個
