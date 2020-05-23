@@ -32,11 +32,7 @@ void gen_function() {
     // ローカル変数分のスタックを確保（26個分）
     printf("  sub rsp, 208\n");
 
-
-    for (int si = 0; g_function[fi]->body[si]; si++) {
-      gen(g_function[fi]->body[si]);
-      //printf("  pop rax\n");
-    }
+    gen(g_function[fi]->block);
   }
 }
 

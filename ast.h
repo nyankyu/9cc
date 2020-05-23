@@ -65,7 +65,7 @@ struct Function {
   char *name;
   size_t len;
   size_t args_size;
-  Node *body[1024];
+  Node *block;
 };
 
 Node *new_call(Token *token, Node *param);

@@ -209,11 +209,14 @@ Function *function() {
   func->args_size = set_args();
 
   expect("{");
-  int i = 0;
+  Node *node = new_node(ND_BLOCK, NULL, NULL);
+  Node head = {};
+  Node *cur = &head;
   while (!consume("}")) {
-    func->body[i++] = stmt();
+    cur = cur->next = stmt();
   }
-  func->body[i] = NULL;
+  node->body = head.next;
+  func->block = node;
 
   return func;
 }
