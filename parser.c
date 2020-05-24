@@ -5,8 +5,22 @@
 #include "token.h"
 #include "ast.h"
 #include "util.h"
+#include "error.h"
 
 LVar *g_locals;
+
+void add_lvar(Token *token) {
+  for (LVar *var = g_locals; var; var = var->next)
+    if (var->len == token->len && memcmp(token->str, var->name, var->len) == 0)
+      return;
+
+  LVar *lvar = calloc(1, sizeof(LVar));
+  lvar->next = g_locals;
+  lvar->name = token->str;
+  lvar->len = token->len;
+  lvar->offset = g_locals ? g_locals->offset + 8 : 8;
+  g_locals = lvar;
+}
 
 LVar *find_lvar(Token *token) {
   for (LVar *var = g_locals; var; var = var->next)
@@ -48,12 +62,7 @@ Node *primary() {
 
   LVar *lvar = find_lvar(token);
   if (lvar == NULL) {
-    lvar = calloc(1, sizeof(LVar));
-    lvar->next = g_locals;
-    lvar->name = token->str;
-    lvar->len = token->len;
-    lvar->offset = g_locals ? g_locals->offset + 8 : 8;
-    g_locals = lvar;
+    error("宣言させていない変数です。");
   }
 
   return new_node_ident(lvar->offset);
@@ -143,6 +152,14 @@ Node *stmt() {
 
   if (consume("return")) {
     node = new_node(ND_RETURN, expr(), NULL);
+  } else if (consume("int")) {
+    Token *token = consume_ident();
+    if (!token)
+      error("変数宣言エラー:変数名がありません。");
+
+    add_lvar(token);
+    expect(";");
+    return NULL;
   } else if (consume("if")) {
     consume("(");
     Node *if_expr = expr();
@@ -219,7 +236,10 @@ Function *function() {
   Node head = {};
   Node *cur = &head;
   while (!consume("}")) {
-    cur = cur->next = stmt();
+    Node *stmt_node = stmt();
+    if (stmt_node == NULL)
+      continue;
+    cur = cur->next = stmt_node;
   }
   node->body = head.next;
   func->block = node;
