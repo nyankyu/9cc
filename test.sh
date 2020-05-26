@@ -18,6 +18,10 @@ assert() {
   fi
 }
 
+assert 1 'int main() {return 1;}'
+assert 1 'int main() {int a; a = 1; return a;}'
+assert 123 'int main() {int *a; int b; a = &b; b = 123; return *a;}'
+assert 123 'int main() {int **a; int *b; int c; b = &c;  a = &b; c = 123; return **a;}'
 assert 12 'int main() {int a; int b; a = 12; b = &a; return *b;}'
 assert 42 'int aaa() {int a; a = 21; return a;} int main() {int a; a = 2; return aaa() * a;}'
 assert 42 'int aaa() {int a; a = 21; return a;} int bbb() {return 2;} int main() {return aaa() * bbb();}'

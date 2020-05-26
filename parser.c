@@ -29,6 +29,23 @@ LVar *find_lvar(Token *token) {
   return NULL;
 }
 
+Type *type() {
+  if (!consume("int")) {
+    return NULL;
+  }
+  Type *ty = calloc(1, sizeof(Type));
+  ty->ty = INT;
+
+  while (consume("*")) {
+    Type *ptr = calloc(1, sizeof(Type));
+    ptr->ty = PTR;
+    ptr->ptr_to = ty;
+    ty = ptr;
+  }
+
+  return ty;
+}
+
 Node *param() {
   Node head = {};
   Node *cur = &head;
@@ -152,14 +169,8 @@ Node *stmt() {
 
   if (consume("return")) {
     node = new_node(ND_RETURN, expr(), NULL);
-  } else if (consume("int")) {
-    Token *token = consume_ident();
-    if (!token)
-      error("変数宣言エラー:変数名がありません。");
-
-    add_lvar(token);
     expect(";");
-    return NULL;
+    return node;
   } else if (consume("if")) {
     consume("(");
     Node *if_expr = expr();
@@ -195,9 +206,20 @@ Node *stmt() {
     }
     node->body = head.next;
     return node;
-  } else {
-    node = expr();
   }
+
+  Type *ty = type();
+  if (ty) {
+    Token *token = consume_ident();
+    if (!token)
+      error("変数宣言エラー:変数名がありません。");
+
+    add_lvar(token);
+    expect(";");
+    return NULL;
+  }
+
+  node = expr();
   expect(";");
   return node;
 }
@@ -206,13 +228,14 @@ size_t set_args() {
   size_t args_size = 0;
   expect("(");
   while (!consume(")")) {
-    expect("int");
+    Type *ty = type();
     Token *token = consume_ident();
     LVar *lvar = calloc(1, sizeof(LVar));
     lvar->next = g_locals;
     lvar->name = token->str;
     lvar->len = token->len;
     lvar->offset = g_locals ? g_locals->offset + 8 : 8;
+    lvar->type = ty;
     g_locals = lvar;
     args_size++;
     consume(",");
@@ -223,7 +246,8 @@ size_t set_args() {
 Function *function() {
   Function *func = calloc(1, sizeof(Function));
 
-  expect("int");
+  type();
+  //Type *ty = type();
   Token *token = consume_ident();
   func->name = token->str;
   func->len = token->len;

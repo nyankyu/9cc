@@ -33,7 +33,7 @@ void expect(char *op) {
 
 int expect_number() {
   if (current_token->kind != TK_NUM)
-    error("数値ではありません。");
+    error("数値ではありません。:%d", current_token->kind);
   int val = current_token->val;
   current_token = current_token->next;
   return (val);

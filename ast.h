@@ -4,6 +4,17 @@
 #include "token.h"
 
 typedef enum {
+  INT,
+  PTR,
+} TY;
+
+typedef struct Type Type;
+struct Type {
+  TY ty;
+  Type *ptr_to;
+};
+
+typedef enum {
   ND_ADD,         // +
   ND_SUB,         // -
   ND_MUL,         // *
@@ -34,7 +45,10 @@ struct Node {
   Node *rhs;
 
   int val;
+
+  // variable
   int offset;     // offset from RBP
+  Type type;
 
   // "if", "for", "while" statement
   Node *init;
@@ -60,6 +74,7 @@ struct LVar {
   char *name;
   size_t len;
   int offset;
+  Type *type;
 };
 
 typedef struct Function Function;
