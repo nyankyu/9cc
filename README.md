@@ -15,9 +15,9 @@ program    = function*
 function   = type ident "(" argment? ")" "{" stmt* "}"
 stmt       = expr ";"
              | "{" stmt* "}"
-             | if "(" expr ")" stmt ("else" stmt)?
-             | for "(" expr ";" expr ";" expr ")" stmt
-             | while "(" expr ")" stmt
+             | "if" "(" expr ")" stmt ("else" stmt)?
+             | "for" "(" expr ";" expr ";" expr ")" stmt
+             | "while" "(" expr ")" stmt
              | "return" expr ";"
              | type ident ";"
 expr       = assign
