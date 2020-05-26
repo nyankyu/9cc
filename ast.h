@@ -48,7 +48,7 @@ struct Node {
 
   // variable
   int offset;     // offset from RBP
-  Type type;
+  Type *type;
 
   // "if", "for", "while" statement
   Node *init;
@@ -92,7 +92,7 @@ Node *new_if(Node *cnd, Node *then);
 Node *add_else(Node *node, Node *els);
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
-Node *new_node_ident(int offset);
+Node *new_node_ident(LVar *lvar);
 
 #endif
 

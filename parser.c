@@ -9,7 +9,7 @@
 
 LVar *g_locals;
 
-void add_lvar(Token *token) {
+void add_lvar(Type *type, Token *token) {
   for (LVar *var = g_locals; var; var = var->next)
     if (var->len == token->len && memcmp(token->str, var->name, var->len) == 0)
       return;
@@ -19,6 +19,7 @@ void add_lvar(Token *token) {
   lvar->name = token->str;
   lvar->len = token->len;
   lvar->offset = g_locals ? g_locals->offset + 8 : 8;
+  lvar->type = type;
   g_locals = lvar;
 }
 
@@ -82,7 +83,7 @@ Node *primary() {
     error("宣言させていない変数です。");
   }
 
-  return new_node_ident(lvar->offset);
+  return new_node_ident(lvar);
 }
 
 Node *unary() {
@@ -214,7 +215,7 @@ Node *stmt() {
     if (!token)
       error("変数宣言エラー:変数名がありません。");
 
-    add_lvar(token);
+    add_lvar(ty, token);
     expect(";");
     return NULL;
   }

@@ -58,10 +58,11 @@ Node *new_node_num(int val) {
   return node;
 }
 
-Node *new_node_ident(int offset) {
+Node *new_node_ident(LVar *lvar) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = ND_LVAR;
-  node->offset = offset;
+  node->offset = lvar->offset;
+  node->type = lvar->type;
   return node;
 }
 
