@@ -18,8 +18,9 @@ assert() {
   fi
 }
 
-assert 1 'int main() {return 1;}'
-assert 1 'int main() {int a; a = 1; return a;}'
+#assert 42 'int hoge(int *a) {*a = 42; return 0;} int main() {int *b; hoge(b); return *b;}'
+assert 4 'int main() {int x; int *y; int **z; y = &x; z = &y; **z = 4; return x;}'
+assert 3 'int main() {int x; int *y; y = &x; *y = 3; return x;}'
 assert 123 'int main() {int *a; int b; a = &b; b = 123; return *a;}'
 assert 123 'int main() {int **a; int *b; int c; b = &c;  a = &b; c = 123; return **a;}'
 assert 12 'int main() {int a; int b; a = 12; b = &a; return *b;}'

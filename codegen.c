@@ -140,11 +140,13 @@ void gen(Node *node) {
   }
 
   if (node->kind == ND_ADDR) {
+    printf("#address\n");
     gen_lval(node->lhs);
     return;
   }
 
   if (node->kind == ND_DEREF) {
+    printf("#dereference\n");
     gen(node->lhs);
     printf("  pop rax\n");
     printf("  mov rax, [rax]\n");
@@ -165,7 +167,10 @@ void gen(Node *node) {
     printf("  push rax\n");
     return;
   case ND_ASSIGN:
-    gen_lval(node->lhs);
+    if (node->lhs->kind == ND_DEREF)
+      gen(node->lhs->lhs);
+    else
+      gen_lval(node->lhs);
     gen(node->rhs);
     printf("#assign\n");
     printf("  pop rdi\n");
