@@ -6,12 +6,14 @@
 typedef enum {
   INT,
   PTR,
+  ARRAY,
 } TY;
 
 typedef struct Type Type;
 struct Type {
   TY ty;
   Type *ptr_to;
+  size_t len;
 };
 
 typedef enum {

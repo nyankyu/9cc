@@ -18,6 +18,7 @@ assert() {
   fi
 }
 
+assert 42 'int main() {int array[4]; return 42;}'
 assert 2 'int main() {int *p; int p1; int p2; int *a; p = &p1; p1 = 1; p2 = 2; a = p + 1; return *a;}'
 assert 1 'int main() {int *p; int p1; int p2; int p3; int *a; p = &p2; p1 = 1; p2 = 2; p3 = 3; a = p - 1; return *a;}'
 assert 3 'int main() {int *p; int p1; int p2; int p3; int *a; p = &p2; p1 = 1; p2 = 2; p3 = 3; a = p + 1; return *a;}'

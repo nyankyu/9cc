@@ -18,7 +18,12 @@ void add_lvar(Type *type, Token *token) {
   lvar->next = g_locals;
   lvar->name = token->str;
   lvar->len = token->len;
-  lvar->offset = g_locals ? g_locals->offset + 8 : 8;
+  if (!g_locals)
+    lvar->offset = 8;
+  else if (g_locals->type->ty == ARRAY)
+    lvar->offset = g_locals->offset + 8 * g_locals->type->len;
+  else
+    lvar->offset = g_locals->offset + 8;
   lvar->type = type;
   g_locals = lvar;
 }
@@ -214,6 +219,14 @@ Node *stmt() {
     Token *token = consume_ident();
     if (!token)
       error("変数宣言エラー:変数名がありません。");
+
+    if (consume("[")) {
+      Type *array = calloc(1, sizeof(Type));
+      array->ty = ARRAY;
+      array->ptr_to = ty;
+      array->len = expect_number();
+      expect("]");
+    }
 
     add_lvar(ty, token);
     expect(";");
