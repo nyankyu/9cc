@@ -20,6 +20,7 @@ stmt       = expr ";"
              | "while" "(" expr ")" stmt
              | "return" expr ";"
              | type ident ";"
+             | type ident "[" num "]" ";"
 expr       = assign
 assign     = equality ("=" assign)?
 equality   = relational ("==" relational | "!=" relational)*
