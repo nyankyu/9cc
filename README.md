@@ -29,6 +29,7 @@ mul        = unary ("*" unary | "/" unary)*
 unary      = ("+" | "-")? primary
              | "*" unary
              | "&" unary
+             | "sizeof" unary
 primary    = num
              | ident
              | ident ("(" param? ")")
@@ -68,7 +69,7 @@ type       = "int" "*"*
 演算子と優先順位
 |演算子|結合性|
 |---|---|
-|+（単項）, -（単項）, *(間接参照), &(アドレス取得)|右|
+|+（単項）, -（単項）, *(間接参照), &(アドレス取得), sizeof|右|
 |*, /|左|
 |+, -|左|
 |<, <=, >, >=|左|
