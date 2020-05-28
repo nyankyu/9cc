@@ -19,9 +19,9 @@ assert() {
 }
 
 assert 42 'int main() {int array[4]; return 42;}'
-assert 2 'int main() {int *p; int p1; int p2; int *a; p = &p1; p1 = 1; p2 = 2; a = p + 1; return *a;}'
-assert 1 'int main() {int *p; int p1; int p2; int p3; int *a; p = &p2; p1 = 1; p2 = 2; p3 = 3; a = p - 1; return *a;}'
-assert 3 'int main() {int *p; int p1; int p2; int p3; int *a; p = &p2; p1 = 1; p2 = 2; p3 = 3; a = p + 1; return *a;}'
+assert 2 'int main() {int *p; int p1; int p2; int *a; p = &p1; p1 = 1; p2 = 2; a = p - 1; return *a;}'
+assert 1 'int main() {int *p; int p1; int p2; int p3; int *a; p = &p2; p1 = 1; p2 = 2; p3 = 3; a = p + 1; return *a;}'
+assert 3 'int main() {int *p; int p1; int p2; int p3; int *a; p = &p2; p1 = 1; p2 = 2; p3 = 3; a = p - 1; return *a;}'
 #assert 42 'int hoge(int *a) {*a = 42; return 0;} int main() {int *b; hoge(b); return *b;}'
 assert 4 'int main() {int x; int *y; int **z; y = &x; z = &y; **z = 4; return x;}'
 assert 3 'int main() {int x; int *y; y = &x; *y = 3; return x;}'

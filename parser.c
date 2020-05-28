@@ -21,7 +21,7 @@ void add_lvar(Type *type, Token *token) {
   if (!g_locals)
     lvar->offset = 8;
   else if (g_locals->type->ty == ARRAY)
-    lvar->offset = g_locals->offset + 8 * g_locals->type->len;
+    lvar->offset = g_locals->offset + 8 * type->len;
   else
     lvar->offset = g_locals->offset + 8;
   lvar->type = type;

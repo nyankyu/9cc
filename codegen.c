@@ -194,8 +194,6 @@ void gen(Node *node) {
     printf("#add\n");
     if (node->lhs->kind == ND_LVAR && node->lhs->type->ty == PTR) {
       printf("  imul rdi, 8\n");
-      printf("  sub rax, rdi\n");
-      break;
     }
     printf("  add rax, rdi\n");
     break;
@@ -203,8 +201,6 @@ void gen(Node *node) {
     printf("#sub\n");
     if (node->lhs->kind == ND_LVAR && node->lhs->type->ty == PTR) {
       printf("  imul rdi, 8\n");
-      printf("  add rax, rdi\n");
-      break;
     }
     printf("  sub rax, rdi\n");
     break;
