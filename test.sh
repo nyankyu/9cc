@@ -18,6 +18,7 @@ assert() {
   fi
 }
 
+assert 3 'int main() {int a[2]; *a = 1; *(a + 1) = 2; int *p; p = a; return *p + *(p+1);}'
 assert 10 'int main() {int a[2]; a[1] = 11; a[0] = 10; return a[0];}'
 assert 11 'int main() {int a[2]; a[1] = 11; a[0] = 10; return a[1];}'
 assert 5 'int main() {int a[10]; int i; for (i = 0; i < 10; i=i+1) a[i] = i; return a[5];}'
