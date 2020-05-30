@@ -7,7 +7,7 @@
 #include "util.h"
 #include "error.h"
 
-LVar *g_locals;
+LVar *g_locals = NULL;
 
 void add_lvar(Type *type, Token *token) {
   for (LVar *var = g_locals; var; var = var->next)
@@ -18,12 +18,11 @@ void add_lvar(Type *type, Token *token) {
   lvar->next = g_locals;
   lvar->name = token->str;
   lvar->len = token->len;
-  if (!g_locals)
-    lvar->offset = 8;
-  else if (g_locals->type->ty == ARRAY)
-    lvar->offset = g_locals->offset + 8 * type->len;
+  int last_offset = g_locals ? g_locals->offset : 0;
+  if (type->ty == ARRAY)
+    lvar->offset = last_offset + 8 * type->len;
   else
-    lvar->offset = g_locals->offset + 8;
+    lvar->offset = last_offset + 8;
   lvar->type = type;
   g_locals = lvar;
 }
@@ -86,6 +85,10 @@ Node *primary() {
   LVar *lvar = find_lvar(token);
   if (lvar == NULL) {
     error("宣言させていない変数です。");
+  }
+
+  if (lvar->type->ty == ARRAY && !consume("[")) {
+    lvar->type->ty = PTR;
   }
 
   return new_node_ident(lvar);
@@ -221,10 +224,9 @@ Node *stmt() {
       error("変数宣言エラー:変数名がありません。");
 
     if (consume("[")) {
-      Type *array = calloc(1, sizeof(Type));
-      array->ty = ARRAY;
-      array->ptr_to = ty;
-      array->len = expect_number();
+      ty->ty = ARRAY;
+      ty->ptr_to = ty;
+      ty->len = expect_number();
       expect("]");
     }
 
