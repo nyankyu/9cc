@@ -95,6 +95,7 @@ Node *add_else(Node *node, Node *els);
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
 Node *new_node_ident(LVar *lvar);
+LVar *copy_lvar(LVar *src);
 
 #endif
 

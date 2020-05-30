@@ -66,3 +66,12 @@ Node *new_node_ident(LVar *lvar) {
   return node;
 }
 
+LVar *copy_lvar(LVar *src) {
+  LVar *cpy = calloc(1, sizeof(LVar));
+  *cpy = *src;
+  Type *ty = calloc(1, sizeof(Type));
+  *ty = *(src->type);
+  cpy->type = ty;
+  return cpy;
+}
+

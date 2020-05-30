@@ -87,11 +87,26 @@ Node *primary() {
     error("宣言させていない変数です。");
   }
 
-  if (lvar->type->ty == ARRAY && !consume("[")) {
-    lvar->type->ty = PTR;
+  if (lvar->type->ty != ARRAY) {
+    return new_node_ident(lvar);
   }
 
-  return new_node_ident(lvar);
+  LVar *array_ptr = copy_lvar(lvar);
+  array_ptr->type->ty = PTR;
+
+  if (!consume("[")) {
+    return new_node_ident(array_ptr);
+  }
+
+  // a[10] => *(a+10)
+  Node *node;
+  Node *array = new_node_ident(array_ptr);
+  Node *index = expr();
+  Node *add_node = new_node(ND_ADD, array, index);
+  node = new_node(ND_DEREF, add_node, NULL);
+  expect("]");
+
+  return node;
 }
 
 Node *unary() {
