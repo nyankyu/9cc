@@ -70,9 +70,9 @@ struct Node {
 };
 
 // list of local variable
-typedef struct LVar LVar;
-struct LVar {
-  LVar *next;
+typedef struct Var Var;
+struct Var {
+  Var *next;
   char *name;
   size_t len;
   int offset;
@@ -94,8 +94,8 @@ Node *new_if(Node *cnd, Node *then);
 Node *add_else(Node *node, Node *els);
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
-Node *new_node_ident(LVar *lvar);
-LVar *copy_lvar(LVar *src);
+Node *new_node_ident(Var *lvar);
+Var *copy_lvar(Var *src);
 
 #endif
 

@@ -7,14 +7,14 @@
 #include "util.h"
 #include "error.h"
 
-LVar *g_locals = NULL;
+Var *g_locals = NULL;
 
 void add_lvar(Type *type, Token *token) {
-  for (LVar *var = g_locals; var; var = var->next)
+  for (Var *var = g_locals; var; var = var->next)
     if (var->len == token->len && memcmp(token->str, var->name, var->len) == 0)
       return;
 
-  LVar *lvar = calloc(1, sizeof(LVar));
+  Var *lvar = calloc(1, sizeof(Var));
   lvar->next = g_locals;
   lvar->name = token->str;
   lvar->len = token->len;
@@ -27,8 +27,8 @@ void add_lvar(Type *type, Token *token) {
   g_locals = lvar;
 }
 
-LVar *find_lvar(Token *token) {
-  for (LVar *var = g_locals; var; var = var->next)
+Var *find_lvar(Token *token) {
+  for (Var *var = g_locals; var; var = var->next)
     if (var->len == token->len && memcmp(token->str, var->name, var->len) == 0)
       return var;
   return NULL;
@@ -82,7 +82,7 @@ Node *primary() {
     return new_call(token, param_list);
   }
 
-  LVar *lvar = find_lvar(token);
+  Var *lvar = find_lvar(token);
   if (lvar == NULL) {
     error("宣言させていない変数です。");
   }
@@ -91,7 +91,7 @@ Node *primary() {
     return new_node_ident(lvar);
   }
 
-  LVar *array_ptr = copy_lvar(lvar);
+  Var *array_ptr = copy_lvar(lvar);
   array_ptr->type->ty = PTR;
 
   if (!consume("[")) {
@@ -261,7 +261,7 @@ size_t set_args() {
   while (!consume(")")) {
     Type *ty = type();
     Token *token = consume_ident();
-    LVar *lvar = calloc(1, sizeof(LVar));
+    Var *lvar = calloc(1, sizeof(Var));
     lvar->next = g_locals;
     lvar->name = token->str;
     lvar->len = token->len;

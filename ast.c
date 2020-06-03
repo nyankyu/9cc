@@ -58,7 +58,7 @@ Node *new_node_num(int val) {
   return node;
 }
 
-Node *new_node_ident(LVar *lvar) {
+Node *new_node_ident(Var *lvar) {
   Node *node = calloc(1, sizeof(Node));
   node->kind = ND_LVAR;
   node->offset = lvar->offset;
@@ -66,8 +66,8 @@ Node *new_node_ident(LVar *lvar) {
   return node;
 }
 
-LVar *copy_lvar(LVar *src) {
-  LVar *cpy = calloc(1, sizeof(LVar));
+Var *copy_lvar(Var *src) {
+  Var *cpy = calloc(1, sizeof(Var));
   *cpy = *src;
   Type *ty = calloc(1, sizeof(Type));
   *ty = *(src->type);
