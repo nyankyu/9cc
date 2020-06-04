@@ -79,13 +79,17 @@ struct Var {
   Type *type;
 };
 
-typedef struct Function Function;
-struct Function {
+typedef struct {
   char *name;
   size_t len;
   size_t args_size;
   Node *block;
-};
+} Function;
+
+typedef struct {
+  Var *globals;
+  Function *funcs;
+} Program;
 
 Node *new_call(Token *token, Node *param);
 Node *new_for(Node *init, Node *cnd, Node *step, Node *then);
