@@ -8,8 +8,7 @@ void gen_lval(Node *node) {
   printf("#lval\n");
   if (node->kind != ND_LVAR)
     error("lval is not variable.");
-  printf("  mov rax, rbp\n");
-  printf("  sub rax, %d\n", node->offset);
+  printf("  lea rax, [rbp-%d]\n", node->offset);
   printf("  push rax\n");
 }
 
