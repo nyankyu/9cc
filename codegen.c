@@ -17,21 +17,21 @@ int label_num = 0;
 char *arg_reg[] = {"rdi", "rsi", "rdx", "rcx", "r8", "r9"};
 
 void codegen() {
-  for (int fi = 0; g_function[fi]; fi++) {
+  for (int fi = 0; g_program.funcs[fi]; fi++) {
     char name[256] = {};
-    strncpy(name, g_function[fi]->name, g_function[fi]->len);
+    strncpy(name, g_program.funcs[fi]->name, g_program.funcs[fi]->len);
     printf("%s:\n", name);
     printf("  push rbp\n");
     printf("  mov rbp, rsp\n");
     // 引数
     printf("#args move reg to stack\n");
-    for (size_t ai = g_function[fi]->args_size; ai > 0; ai--) {
+    for (size_t ai = g_program.funcs[fi]->args_size; ai > 0; ai--) {
       printf("  push %s\n", arg_reg[ai-1]);
     }
     // ローカル変数分のスタックを確保（26個分）
     printf("  sub rsp, 208\n");
 
-    gen(g_function[fi]->block);
+    gen(g_program.funcs[fi]->block);
   }
 }
 

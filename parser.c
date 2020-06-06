@@ -306,8 +306,9 @@ Function *function() {
 void parse() {
   int i = 0;
   while (!at_eof()) {
-    g_function[i++] = function();
+    g_program.funcs[i++] = function();
+    //g_function[i++] = function();
   }
-  g_function[i] = NULL;
+  g_program.funcs[i] = NULL;
 }
 

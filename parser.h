@@ -3,8 +3,7 @@
 
 #include "ast.h"
 
-Function *g_function[256];
-Node *g_code[100];
+Program g_program;
 
 Node *expr();
 void parse();

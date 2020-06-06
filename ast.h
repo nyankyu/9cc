@@ -77,6 +77,7 @@ struct Var {
   size_t len;
   int offset;
   Type *type;
+  bool is_global;
 };
 
 typedef struct {
@@ -88,7 +89,7 @@ typedef struct {
 
 typedef struct {
   Var *globals;
-  Function *funcs;
+  Function *funcs[256];
 } Program;
 
 Node *new_call(Token *token, Node *param);
