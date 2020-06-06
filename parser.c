@@ -303,7 +303,7 @@ Function *function() {
 }
 
 
-void program() {
+void parse() {
   int i = 0;
   while (!at_eof()) {
     g_function[i++] = function();

@@ -16,12 +16,12 @@ int main(int argc, char **argv)
   puts("#====== tokenize =======");
   tokenize(argv[1]);
   puts("#====== made AST =======");
-  program();
+  parse();
 
   printf(".intel_syntax noprefix\n");
   printf(".global main\n");
 
-  gen_function();
+  codegen();
 
   return (0);
 }

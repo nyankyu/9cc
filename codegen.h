@@ -3,6 +3,7 @@
 
 #include "ast.h"
 
+void codegen();
 void gen(Node *node);
 
 #endif

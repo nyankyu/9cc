@@ -16,7 +16,7 @@ int label_num = 0;
 
 char *arg_reg[] = {"rdi", "rsi", "rdx", "rcx", "r8", "r9"};
 
-void gen_function() {
+void codegen() {
   for (int fi = 0; g_function[fi]; fi++) {
     char name[256] = {};
     strncpy(name, g_function[fi]->name, g_function[fi]->len);

@@ -7,7 +7,6 @@ Function *g_function[256];
 Node *g_code[100];
 
 Node *expr();
-void program();
-void gen_function();
+void parse();
 
 #endif
